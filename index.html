@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Calculator & Progress Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">
+                    <span class="icon">📊</span>
+                    Grade Calculator & Progress Tracker
+                </h1>
+                <p class="subtitle">Track your academic progress and calculate your GPA in real-time</p>
+            </div>
+        </header>
+
+        <!-- Overview Cards -->
+        <section class="overview">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Cumulative GPA</h3>
+                    <span class="icon">📈</span>
+                </div>
+                <div class="card-content">
+                    <div class="gpa-value" id="cumulativeGPA">0.00</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="gpaProgress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Total Credits</h3>
+                    <span class="icon">📚</span>
+                </div>
+                <div class="card-content">
+                    <div class="stat-value" id="totalCredits">0</div>
+                    <p class="stat-label">Credit hours completed</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Total Courses</h3>
+                    <span class="icon">🎓</span>
+                </div>
+                <div class="card-content">
+                    <div class="stat-value" id="totalCourses">0</div>
+                    <p class="stat-label">Courses tracked</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs">
+            <button class="tab-button active" data-tab="add-course">Add Course</button>
+            <button class="tab-button" data-tab="courses">All Courses</button>
+            <button class="tab-button" data-tab="semesters">By Semester</button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="tab-content">
+            <!-- Add Course Tab -->
+            <section id="add-course" class="tab-panel active">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 id="formTitle">➕ Add New Course</h2>
+                        <p>Enter course details to calculate your GPA</p>
+                    </div>
+                    <div class="card-content">
+                        <form id="courseForm" class="course-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="courseName">Course Name</label>
+                                    <input type="text" id="courseName" placeholder="e.g., Calculus I" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="credits">Credit Hours</label>
+                                    <input type="number" id="credits" placeholder="e.g., 3" min="0.5" max="10" step="0.5" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="grade">Grade</label>
+                                    <select id="grade" required>
+                                        <option value="">Select grade</option>
+                                        <option value="A+">A+ (4.0)</option>
+                                        <option value="A">A (4.0)</option>
+                                        <option value="A-">A- (3.7)</option>
+                                        <option value="B+">B+ (3.3)</option>
+                                        <option value="B">B (3.0)</option>
+                                        <option value="B-">B- (2.7)</option>
+                                        <option value="C+">C+ (2.3)</option>
+                                        <option value="C">C (2.0)</option>
+                                        <option value="C-">C- (1.7)</option>
+                                        <option value="D+">D+ (1.3)</option>
+                                        <option value="D">D (1.0)</option>
+                                        <option value="F">F (0.0)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="semester">Semester</label>
+                                    <input type="text" id="semester" placeholder="e.g., Fall 2024" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="submitBtn">Add Course</button>
+                            <button type="button" class="btn btn-secondary" id="cancelBtn" style="display: none;">Cancel Edit</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- All Courses Tab -->
+            <section id="courses" class="tab-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>All Courses</h2>
+                        <p>Manage all your courses</p>
+                    </div>
+                    <div class="card-content">
+                        <div id="coursesList" class="courses-list">
+                            <div class="empty-state">
+                                <span class="icon">📝</span>
+                                <p>No courses added yet. Add your first course to get started!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Semesters Tab -->
+            <section id="semesters" class="tab-panel">
+                <div id="semestersList" class="semesters-list">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="empty-state">
+                                <span class="icon">📅</span>
+                                <p>No semesters found. Add courses to see semester-wise breakdown.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
