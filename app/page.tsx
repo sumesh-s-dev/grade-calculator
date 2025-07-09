@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { AlertCircle, BookOpen, Calculator, TrendingUp, Plus, Trash2, Edit3 } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useTheme } from "next-themes"
+import { Sun, Moon } from "lucide-react"
 
 interface Course {
   id: string
@@ -44,6 +46,7 @@ const gradeScale = {
 }
 
 export default function GradeCalculator() {
+  const { theme, setTheme } = useTheme();
   const [courses, setCourses] = useState<Course[]>([])
   const [semesters, setSemesters] = useState<Semester[]>([])
   const [currentCourse, setCurrentCourse] = useState({
@@ -79,8 +82,8 @@ export default function GradeCalculator() {
       return
     }
 
-    const totalPoints = courses.reduce((sum, course) => sum + course.gradePoints * course.credits, 0)
-    const totalCreds = courses.reduce((sum, course) => sum + course.credits, 0)
+    const totalPoints = courses.reduce((sum: number, course: Course) => sum + course.gradePoints * course.credits, 0)
+    const totalCreds = courses.reduce((sum: number, course: Course) => sum + course.credits, 0)
 
     setCumulativeGPA(totalCreds > 0 ? totalPoints / totalCreds : 0)
     setTotalCredits(totalCreds)
@@ -89,7 +92,7 @@ export default function GradeCalculator() {
   const organizeSemesters = () => {
     const semesterMap = new Map<string, Course[]>()
 
-    courses.forEach((course) => {
+    courses.forEach((course: Course) => {
       if (!semesterMap.has(course.semester)) {
         semesterMap.set(course.semester, [])
       }
@@ -97,9 +100,9 @@ export default function GradeCalculator() {
     })
 
     const semesterList: Semester[] = Array.from(semesterMap.entries())
-      .map(([name, courses]) => {
-        const totalPoints = courses.reduce((sum, course) => sum + course.gradePoints * course.credits, 0)
-        const totalCredits = courses.reduce((sum, course) => sum + course.credits, 0)
+      .map(([name, courses]: [string, Course[]]) => {
+        const totalPoints = courses.reduce((sum: number, course: Course) => sum + course.gradePoints * course.credits, 0)
+        const totalCredits = courses.reduce((sum: number, course: Course) => sum + course.credits, 0)
 
         return {
           name,
@@ -163,7 +166,7 @@ export default function GradeCalculator() {
   }
 
   const deleteCourse = (id: string) => {
-    setCourses(courses.filter((course) => course.id !== id))
+    setCourses(courses.filter((course: Course) => course.id !== id))
   }
 
   const getGradeColor = (gpa: number) => {
@@ -181,7 +184,17 @@ export default function GradeCalculator() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2">
+        <div className="flex flex-col items-center space-y-2 relative">
+          <div className="absolute right-0 top-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Toggle dark mode"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+          </div>
           <h1 className="text-4xl font-bold text-gray-900 flex items-center justify-center gap-2">
             <Calculator className="h-8 w-8 text-blue-600" />
             Grade Calculator & Progress Tracker
